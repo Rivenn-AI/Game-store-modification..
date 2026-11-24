@@ -10,9 +10,9 @@ export interface Member {
   memberNick: string;
   memberPhone: string;
   memberPassword?: string;
-  memberAddress?: string;
-  memberDesc?: string;
-  memberImage?: string;
+  memberAddress?: string | null;
+  memberDesc?: string | null;
+  memberImage?: string | null;
   memberPoints: number;
   createdAt: Date;
   updatedAt: Date;
