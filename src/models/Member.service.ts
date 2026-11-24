@@ -74,6 +74,25 @@ class MemberService {
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
     return result as unknown as Member[];
   }
+  // GameStore do'koni (Admin) ma'lumotlarini olish
+  public async getStore(): Promise<Member> {
+    const result = await this.memberModel
+      .findOne({ memberType: MemberType.ADMIN })
+      .exec();
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    return result as unknown as Member;
+  }
+
+  // Eng ko'p ball (points) to'plagan faol mijozlarni olish (Top Users)
+  public async getTopUsers(): Promise<Member[]> {
+    const result = await this.memberModel
+      .find({ memberStatus: MemberStatus.ACTIVE, memberPoints: { $gte: 1 } })
+      .sort({ memberPoints: -1 })
+      .limit(4)
+      .exec();
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    return result as unknown as Member[];
+  }
 
   public async updateChosenUser(input: MemberUpdateInput): Promise<Member> {
     input._id = shapeIntoMongooseObjectId(input._id);

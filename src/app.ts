@@ -1,4 +1,6 @@
 import express from "express";
+import routerAdmin from "./routerAdmin";
+import router from "./router";
 import path from "path";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
@@ -46,9 +48,8 @@ app.use(function (req, res, next) {
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-/** 4-ROUTERS (Test yo'li) **/
-app.get("/", (req, res) => {
-  res.send("<h1> GameStore Backend Server is Running!</h1>");
-});
+/** 4-ROUTERS **/
+app.use("/admin", routerAdmin); // BSSR: Admin EJS
+app.use("/", router); // SPA: Client REST API
 
 export default app;
